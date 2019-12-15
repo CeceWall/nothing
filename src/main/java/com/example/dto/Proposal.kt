@@ -6,6 +6,8 @@ import javax.persistence.*
 enum class ProposalAction {
     EDIT,
     CONFIRM,
+    APPROVE_STAGE_1,
+    APPROVE_STAGE_2,
     SCORING,
 }
 
@@ -30,8 +32,6 @@ class ConfirmedProposal: ProposalActionDispatch {
         }
     }
 }
-
-class W
 
 @Entity
 @Table(name = "Proposal")

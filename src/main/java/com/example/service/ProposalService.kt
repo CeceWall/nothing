@@ -75,10 +75,11 @@ class ProposalService {
         if (proposal.proposalId == null || !this.proposalRepository.existsByProposalId(proposal.proposalId!!)) {
             throw ProposalNotFoundException(proposal.proposalId)
         }
-        val currentStage = ApprovalStage.fromString(proposal.approveState)
-        if (stage != currentStage) {
-            throw ProposalApprovalStateNotMatchException(currentStage)
-        }
+        // TODO: 加入是否可以执行保存操作的校验
+//        val currentStage = ApprovalStage.fromString(proposal.approveState)
+//        if (stage != currentStage) {
+//            throw ProposalApprovalStateNotMatchException(currentStage)
+//        }
         return this.addProposal(proposal)
     }
 }
