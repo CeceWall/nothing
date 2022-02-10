@@ -284,13 +284,27 @@
     </div>
 
     <script src="https://cdn.staticfile.org/dayjs/1.10.7/dayjs.min.js"></script>
+    <script src="https://cdn.staticfile.org/dayjs/1.10.7/plugin/customParseFormat.min.js"></script>
     <script src="https://cdn.staticfile.org/dayjs/1.10.7/plugin/duration.js"></script>
     <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/gsap/1.10.0/TweenMax.min.js"></script>
+    <script src="https://cdn.staticfile.org/gsap/1.20.5/TweenMax.min.js"></script>
+
     <script>
-        dayjs.extend(dayjs_plugin_duration)
+        dayjs.extend(dayjs_plugin_duration);
+        dayjs.extend(dayjs_plugin_customParseFormat);
     </script>
     <script>
+        var query = new URLSearchParams(window.location.search);
+        var deadlineStr = query.get('d');
+        if (!deadlineStr) {
+            deadlineStr = '17:30:00'
+        }
+        var deadline = dayjs(deadlineStr, 'HH:mm:ss');
+        if (!deadline.isValid()) {
+            deadline = dayjs().hour(17).minute(30).second(00);
+        }
+
+        // window.location.
         // Create Countdown
         var Countdown = {
 
@@ -312,10 +326,9 @@
                 };
 
                 var now = dayjs();
-                var deadline = dayjs().hour(17).minute(30).second(00);
                 this.total_seconds = deadline.diff(now, 'second');
-
                 var duration = dayjs.duration(this.total_seconds, 'seconds');
+
                 // Init countdown values
                 this.values = {
                     // hours: this.$.hours.parent().attr('data-init-value'),
