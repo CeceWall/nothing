@@ -294,6 +294,15 @@
         dayjs.extend(dayjs_plugin_customParseFormat);
     </script>
     <script>
+        async function getCurrentTimestamp() {
+            try {
+                const resp = await fetch('https://www.tsa.cn/api/time/getCurrentTime');
+                return parseInt(resp.text());
+            } catch {
+                return Date.now();
+            }
+        }
+        
         var query = new URLSearchParams(window.location.search);
         var deadlineStr = query.get('d');
         if (!deadlineStr) {
@@ -316,7 +325,7 @@
             total_seconds: 0,
 
             // Initialize the countdown  
-            init: function () {
+            init: async function () {
 
                 // DOM
                 this.$ = {
@@ -325,11 +334,12 @@
                     seconds: this.$el.find('.bloc-time.sec .figure')
                 };
 
-                var now = dayjs();
+                var now = dayjs(await getCurrentTimestamp());
                 this.total_seconds = deadline.diff(now, 'second');
                 var duration = dayjs.duration(this.total_seconds, 'seconds');
 
-                // Init countdown values
+                // 
+                countdown values
                 this.values = {
                     // hours: this.$.hours.parent().attr('data-init-value'),
                     // minutes: this.$.minutes.parent().attr('data-init-value'),
