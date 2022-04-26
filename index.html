@@ -302,7 +302,7 @@
                 return Date.now();
             }
         }
-        
+
         var query = new URLSearchParams(window.location.search);
         var deadlineStr = query.get('d');
         if (!deadlineStr) {
@@ -399,11 +399,14 @@
                         --that.total_seconds;
                     }
                     else {
-                        clearInterval(that.countdown_interval);
+                        that.clearCount()
                     }
                 }, 1000);
             },
-
+            clearCount: function () {
+                clearInterval(this.countdown_interval);
+                this.countdown_interval = null;
+            },
             animateFigure: function ($el, value) {
 
                 var that = this,
@@ -465,6 +468,13 @@
 
         // Let's go !
         Countdown.init();
+        document.addEventListener('visibilitychange', (evt) => {
+            console.log('visibility change ', document.visibilityState)
+            if (document.visibilityState == 'visible') {
+                Countdown.clearCount();
+                Countdown.init();
+            }
+        })
     </script>
 </body>
 
