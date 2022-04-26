@@ -297,7 +297,7 @@
         async function getCurrentTimestamp() {
             try {
                 const resp = await fetch('https://www.tsa.cn/api/time/getCurrentTime');
-                return parseInt(resp.text());
+                return parseInt(await resp.text());
             } catch {
                 return Date.now();
             }
